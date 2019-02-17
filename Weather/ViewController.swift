@@ -31,23 +31,31 @@ class ViewController: UIViewController {
         let url = URL(string: URLString)
         do{
             let source = try String(contentsOf: url!)
-            var tokens = source.components(separatedBy: "<span class=\"phrase\">")
-            var data = tokens[1]
-            tokens = data.components(separatedBy: "</span")
-            data = tokens[0]
-            print(data)
-            WeatherTextView.text = data
-            WeatherTextView.isEditable = false
+            if source.contains("<span class=\"phrase\">"){
+                var tokens = source.components(separatedBy: "<span class=\"phrase\">")
+                var data = tokens[1]
+                tokens = data.components(separatedBy: "</span")
+                data = tokens[0]
+                print(data)
+                WeatherTextView.text = data
+                WeatherTextView.isEditable = false
+            }
+            else{
+                WeatherTextView.text = "The city name you have entered is invalid. Please try again!!!"
+                WeatherTextView.isEditable = false
+            }
         }
         catch{
             print("Exception occurred")
-            
+            WeatherTextView.text = "The city name you have entered is invalid. Please try again!!!"
+            WeatherTextView.isEditable = false
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Clouds.jpg")!)
     }
 
 
